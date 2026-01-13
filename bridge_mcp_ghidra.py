@@ -15,10 +15,14 @@ from urllib.parse import urljoin
 
 from mcp.server.fastmcp import FastMCP
 
-DEFAULT_GHIDRA_SERVER = "http://127.0.0.1:8080/"
+DEFAULT_GHIDRA_SERVER = "http://127.0.0.1:21337/"
 DEFAULT_REQUEST_TIMEOUT = 30
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.ERROR)
+
+# Silence MCP library logs
+logging.getLogger("mcp").setLevel(logging.ERROR)
 
 mcp = FastMCP("ghidra-mcp")
 
@@ -782,6 +786,52 @@ def get_call_graph(address: str, depth: int = 20, include_runtime: bool = False)
         "include_runtime": str(include_runtime).lower(),
     }
     return "\n".join(safe_get("get_call_graph", params))
+
+
+@mcp.tool()
+def get_binary_info() -> str:
+    """
+    Get comprehensive information about the currently loaded binary.
+    Returns metadata including file path, hashes (MD5, SHA1, SHA256),
+    architecture, compiler, executable format, and other useful details.
+
+    Returns:
+        A formatted string containing binary metadata:
+        - File path and size
+        - MD5, SHA1, and SHA256 hashes
+        - Executable format (PE, ELF, etc.)
+        - Architecture and endianness
+        - Compiler information
+        - Memory layout and image base
+        - Entry point address
+        - Creation and modification dates
+    """
+    return "\n".join(safe_get("get_binary_info", {}))
+
+
+@mcp.tool()
+def list_structs() -> str:
+    """
+    List all defined structures (structs) in the binary.
+    Returns struct definitions with their fields, offsets, and types.
+    Only includes structs in the root category and filters out undefined fields.
+
+    Returns:
+        A formatted string containing struct definitions in C-like syntax:
+        struct StructName { // size: X bytes
+          [+0xoffset] fieldName: fieldType (size: Y)
+          ...
+        }
+
+        Each struct shows:
+        - Struct name and total size
+        - Field offsets (in hex)
+        - Field names (or <unnamed> if not named)
+        - Field data types
+        - Field sizes
+        - Undefined fields are automatically filtered out
+    """
+    return "\n".join(safe_get("list_structs", {}))
 
 
 def main():

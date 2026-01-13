@@ -256,6 +256,7 @@ Lastly, give your MCP connection a name for VSCode.
 To build from source, you need to set the `GHIDRA_INSTALL_DIR` environment variable to point to your Ghidra installation directory. This can be done as follows:
 - Windows: Running set GHIDRA_INSTALL_DIR=`<Absolute path to Ghidra without quotations>`
 - macos/Linux: Running export GHIDRA_INSTALL_DIR=`<Absolute path to Ghidra>`
+  Example `GHIDRA_INSTALL_DIR=/ghidra_12.0_PUBLIC gradle buildExtension`
 
 Build with Gradle by simply running:
 
