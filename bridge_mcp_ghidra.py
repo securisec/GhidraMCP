@@ -349,7 +349,7 @@ def list_strings(offset: int = 0, limit: int = 2000, filter: str = None) -> list
 
 @mcp.tool()
 def create_struct(
-    name: str, category: str = None, size: int = 0, members: list = None
+    name: str, category: str = None, size: int = 0, members: list[dict] = None
 ) -> str:
     """
     Create a new structure.
@@ -376,7 +376,7 @@ def create_struct(
 
 
 @mcp.tool()
-def add_struct_members(struct_name: str, members: list, category: str = None) -> str:
+def add_struct_members(struct_name: str, members: list[dict], category: str = None) -> str:
     """
     Add a member to an existing structure.
 
@@ -501,7 +501,7 @@ def search_bytes(bytes_hex: str, offset: int = 0, limit: int = 100) -> list:
 
 @mcp.tool()
 def create_enum(
-    name: str, category: str = None, size: int = 4, values: list = None
+    name: str, category: str = None, size: int = 4, values: list[dict] = None
 ) -> str:
     """
     Create a new enum.
@@ -526,7 +526,7 @@ def create_enum(
 
 
 @mcp.tool()
-def add_enum_values(enum_name: str, values: list, category: str = None) -> str:
+def add_enum_values(enum_name: str, values: list[dict], category: str = None) -> str:
     """
     Add values to an existing enum.
 
@@ -603,7 +603,7 @@ def set_global_data_type(
 
 @mcp.tool()
 def add_class_members(
-    class_name: str, members: list, parent_namespace: str = None
+    class_name: str, members: list[dict], parent_namespace: str = None
 ) -> str:
     """
     Add members to an existing C++ class.
@@ -627,7 +627,7 @@ def add_class_members(
 
 @mcp.tool()
 def remove_class_members(
-    class_name: str, members: list, parent_namespace: str = None
+    class_name: str, members: list[str], parent_namespace: str = None
 ) -> str:
     """
     Remove members from an existing C++ class.
@@ -649,7 +649,7 @@ def remove_class_members(
 
 
 @mcp.tool()
-def remove_enum_values(enum_name: str, values: list, category: str = None) -> str:
+def remove_enum_values(enum_name: str, values: list[str], category: str = None) -> str:
     """
     Remove values from an existing enum.
 
@@ -670,7 +670,7 @@ def remove_enum_values(enum_name: str, values: list, category: str = None) -> st
 
 
 @mcp.tool()
-def remove_struct_members(struct_name: str, members: list, category: str = None) -> str:
+def remove_struct_members(struct_name: str, members: list[str], category: str = None) -> str:
     """
     Remove members from an existing struct.
 
